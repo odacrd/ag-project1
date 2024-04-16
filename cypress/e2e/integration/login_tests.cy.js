@@ -3,12 +3,10 @@
 describe("login scenarios", () => {
     beforeEach(() => {
         cy.visit("https://agexpert.ca/");
-        cy.get("#onetrust-reject-all-handler").click();
-        cy.findByText("Sign in")
-        .should("be.visible")
-        .click();
-        cy.get('.main-container');  
-      })
+        cy.get('#onetrust-accept-btn-handler').click();
+        //cy.get("#onetrust-reject-all-handler").click();
+        cy.findByText("Sign in").should("be.visible").click();
+      });
     it('should validate missing password', () => {  
         cy.get('#signInName').should("be.visible")
             .type("od5514690@gmail.com");
@@ -27,18 +25,14 @@ describe("login scenarios", () => {
     });
 
     it('validate successful login', () => {
-        cy.get('#signInName').should("be.visible")
-        .type("od5514690@gmail.com");
-        cy.get('#password').should("be.visible")
-        .type("agExpert!23");
-        cy.get("#next").click();
-        cy.wait(2000);
+       let xx = "https://agexpert.b2clogin.com/agexpert.onmicrosoft.com/"
+        // Login using cy.origin to avoid CORs error 
+        cy.origin(xx, ()=> {
+            cy.get('#signInName').should("be.visible").type("od5514690@gmail.com");
+            cy.get('#password').type("agExpert!23");
+            cy.get("#next").click();
+        });
         cy.get('.agx-page-title').should("be.visible");
-        
-        cy.get('.agx-button').contains('Go to Field').click();
-        cy.url().then((url) => {
-            cy.log('Current URL is: ' + url)
-          })
-        cy.wait(12000);
     });
+
 })

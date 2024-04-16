@@ -22,5 +22,9 @@ module.exports = (on, config) => {
  
 }
 
+// const cypressEslint = require("cypress-eslint-preprocessor");
+// module.exports = (on) =>{
+//   on("file:preprocessor",cypressEslint());
+// }
 // in plugins file
 

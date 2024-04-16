@@ -1,26 +1,34 @@
-import { NewContractPage} from "../pages/new_contract.page";
+import { NewContractPage } from "../pages/new_contract.page";
 
-export class ContractsPage{
-    visit(){
-        cy.visit('https://contracts.agexpert.ca/en');
-        return this;
-    }
+export class ContractsPage {
+  visit() {
+    cy.visit("https://contracts.agexpert.ca/en");
+    return this;
+  }
 
-    waitForPage(){
-        cy.get('ag-contracts', { timeout: 10000 }).should('be.visible');
-        return this;
-    }
+  waitForPage() {
+    cy.get("ag-contracts", { timeout: 10000 }).should("be.visible");
+    return this;
+  }
 
-    click_AddContract(){
-        cy.get("button[routerlink='/contracts/add']").should("be.visible").click();
-        return new NewContractPage;
-    }
+  // click the 'Add Contract' button
+  click_AddContract() {
+    cy.get("button[routerlink='/contracts/add']").should("be.visible").click();
+    return new NewContractPage();
+  }
 
-   
+  verifyNewContractAdded(contractNumber) {
+    // search for contract with contractNumber
+    cy.get(".agx-data-filter-infix input")
+      .should("be.visible")
+      .type(contractNumber);
 
-    viewContractSummary(){
-        cy.get('ag-contracts .agx-expansion-panel-header.summary-header').should('be.visible').click();
-        cy.get('ag-contracts .agx-expansion-panel-content.agx-expanded').should('be.visible');
-        return this;
-    }
+    // verify there's only 1 and checks it's contract number
+    cy.get("agx-tile-list")
+      .find(">agx-tile")
+      .should("have.length", 1)
+      .find("agx-tile-row")
+      .contains(contractNumber);
+    return this;
+  }
 }

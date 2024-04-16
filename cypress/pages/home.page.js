@@ -7,8 +7,8 @@ export class HomePage{
     }
 
     waitForPage(){
-        cy.get('ag-start', { timeout: 20000 }).should('be.visible');
-        //cy.wait(2000);
+        cy.get('ag-start', { timeout: 30000 }).should('be.visible');
+        return this;
     }
 
     // click link for 'Field' page
